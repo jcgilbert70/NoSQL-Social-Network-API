@@ -41,23 +41,50 @@ const thoughtsController = {
             });
     },
 
+    // get a Thought by id
+    getThoughtById({ params }, res) {
+        Thoughts.findOne({ _id: params.id })
+            .populate({
+                path: "reactions",
+                select: "-__v",
+            })
+            .select("-__v")
+            .then((dbThoughtData) => {
+                if (!dbThoughtData) {
+                    return res.status(404).json({ message: "No thought with this id" });
+                }
+                res.json(dbThoughtData);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(400);
+            });
+    },
 
 
-
-
+    // update a Thought by id
+    updateThought({ params, body }, res) {
+        Thoughts.findOneAndUpdate({ _id: params.id }, body, {
+            new: true,
+            runValidators: true,
+        })
+            .then((dbThoughtData) => {
+                if (!dbThoughtData) {
+                    res.status(404).json({ message: "No thought found with this id!" });
+                    return;
+                }
+                res.json(dbThoughtData);
+            })
+            .catch((err) => res.json(err));
+    },
 
     /*
-
-       getThoughtsById
-   
-       updateThoughts
-   
-       deleteThoughts
-   
-       addReaction
-   
-       deleteReaction
-   */
+            deleteThoughts
+        
+            addReaction
+        
+            deleteReaction
+        */
 
 };
 
