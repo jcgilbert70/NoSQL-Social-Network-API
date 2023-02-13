@@ -1,21 +1,30 @@
 const { Users } = require('../models');
 
 const usersController = {
-/*
-    createUsers
 
-    getAllUsers
+    // create user
+    createUser({ body }, res) {
+        Users.create(body)
+            .then((dbUserData) => res.json(dbUserData))
+            .catch((err) => res.json(err));
+    },
 
-    getUsersById
-
-    updateUsers
-
-    deleteUsers
-
-    addFriend
-
-    deleteFriend
-*/
+    
+    /*
+        createUsers
+    
+        getAllUsers
+    
+        getUsersById
+    
+        updateUsers
+    
+        deleteUsers
+    
+        addFriend
+    
+        deleteFriend
+    */
 
 };
 
