@@ -9,12 +9,25 @@ const usersController = {
             .catch((err) => res.json(err));
     },
 
-    
-    /*
-        createUsers
-    
-        getAllUsers
-    
+    getAllUsers(req, res) {
+        Users.find({})
+            .populate({
+                path: "friends",
+                select: "-__v",
+            })
+            .select("-__v")
+            .sort({ _id: -1 })
+            .then((dbUserData) => res.json(dbUserData))
+            .catch((err) => {
+                console.log(err);
+                res.sendStatus(400);
+            });
+    },
+
+
+
+
+    /*    
         getUsersById
     
         updateUsers
